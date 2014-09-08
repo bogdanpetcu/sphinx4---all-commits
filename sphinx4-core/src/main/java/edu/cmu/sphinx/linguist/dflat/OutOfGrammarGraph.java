@@ -11,19 +11,27 @@
  */
 package edu.cmu.sphinx.linguist.dflat;
 
-import edu.cmu.sphinx.decoder.scorer.ScoreProvider;
-import edu.cmu.sphinx.frontend.Data;
-import edu.cmu.sphinx.frontend.FloatData;
-import edu.cmu.sphinx.linguist.*;
-import edu.cmu.sphinx.linguist.acoustic.*;
-import edu.cmu.sphinx.linguist.acoustic.tiedstate.MixtureComponent;
-import edu.cmu.sphinx.linguist.dictionary.Pronunciation;
-import edu.cmu.sphinx.linguist.dictionary.Word;
-import edu.cmu.sphinx.util.LogMath;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import edu.cmu.sphinx.decoder.scorer.ScoreProvider;
+import edu.cmu.sphinx.frontend.Data;
+import edu.cmu.sphinx.linguist.HMMSearchState;
+import edu.cmu.sphinx.linguist.SearchState;
+import edu.cmu.sphinx.linguist.SearchStateArc;
+import edu.cmu.sphinx.linguist.UnitSearchState;
+import edu.cmu.sphinx.linguist.WordSearchState;
+import edu.cmu.sphinx.linguist.WordSequence;
+import edu.cmu.sphinx.linguist.acoustic.AcousticModel;
+import edu.cmu.sphinx.linguist.acoustic.HMM;
+import edu.cmu.sphinx.linguist.acoustic.HMMPosition;
+import edu.cmu.sphinx.linguist.acoustic.HMMState;
+import edu.cmu.sphinx.linguist.acoustic.HMMStateArc;
+import edu.cmu.sphinx.linguist.acoustic.Unit;
+import edu.cmu.sphinx.linguist.dictionary.Pronunciation;
+import edu.cmu.sphinx.linguist.dictionary.Word;
+import edu.cmu.sphinx.util.LogMath;
 
 
 /** Builds a grammar sub-graph that matches all phones. This is suitable for use as an out-of-grammar detector */
@@ -393,19 +401,6 @@ public class OutOfGrammarGraph {
             return hmmState.getScore(data);
         }
 
-
-		public float[] calculateComponentScore(FloatData features) {
-			MixtureComponent[] mc = this.getHMMState().getMixtureComponents();
-			float[] mw = this.getHMMState().getLogMixtureWeights();
-			float[] featureVector = FloatData.toFloatData(features).getValues();
-			float[] logComponentScore = new float[mc.length];
-
-			for (int i = 0; i < mc.length; i++) {
-				logComponentScore[i] = mc[i].getScore(featureVector) + mw[i];
-			}
-
-			return logComponentScore;
-		}
     }
 
     /** Represents the last branch state in the search graph */

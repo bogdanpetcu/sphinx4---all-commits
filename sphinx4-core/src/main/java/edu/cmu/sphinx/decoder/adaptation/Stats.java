@@ -6,6 +6,7 @@ import edu.cmu.sphinx.linguist.HMMSearchState;
 import edu.cmu.sphinx.linguist.SearchState;
 import edu.cmu.sphinx.linguist.acoustic.tiedstate.Loader;
 import edu.cmu.sphinx.linguist.acoustic.tiedstate.Sphinx3Loader;
+import edu.cmu.sphinx.linguist.lextree.LexTreeLinguist.LexTreeHMMState;
 import edu.cmu.sphinx.result.Result;
 import edu.cmu.sphinx.util.LogMath;
 
@@ -133,7 +134,7 @@ public class Stats {
 	 */
 	public void collect(Result result) throws Exception {
 		Token token = result.getBestToken();
-		HMMSearchState state;
+		LexTreeHMMState state;
 		float[] componentScore, featureVector, posteriors, tmean;
 		float dnom, wtMeanVar, wtDcountVar, wtDcountVarMean, mean;
 		int mId, len, cluster;
@@ -150,7 +151,7 @@ public class Stats {
 				continue;
 			}
 
-			state = (HMMSearchState) token.getSearchState();
+			state = (LexTreeHMMState) token.getSearchState();
 			componentScore = state.calculateComponentScore(feature);
 			featureVector = FloatData.toFloatData(feature).getValues();
 			mId = (int) state.getHMMState().getMixtureId();

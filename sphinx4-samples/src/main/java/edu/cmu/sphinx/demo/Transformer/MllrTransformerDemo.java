@@ -32,7 +32,7 @@ public class MllrTransformerDemo {
 				configuration);
 
 		InputStream stream = TranscriberDemo.class
-				.getResourceAsStream("/edu/cmu/sphinx/demo/countsCollector/BillGates5Mins.wav");
+				.getResourceAsStream("/edu/cmu/sphinx/demo/mllr/BillGates2Mins.wav");
 		recognizer.startRecognition(stream);
 
 		Sphinx3Loader loader = (Sphinx3Loader) recognizer.getLoader();
